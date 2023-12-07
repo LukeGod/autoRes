@@ -80,18 +80,19 @@ class TestKeyWords():
     
     # 比较网速排序 返回排序后的列表
     def compareSpeed(self,pageUrls):
-        response_times = []
-        for pageUrl in pageUrls:
-            response_times.append(self.getSpeed(pageUrl))
+        # response_times = []
+        # for pageUrl in pageUrls:
+        #     response_times.append(self.getSpeed(pageUrl))
         
-        sorted_urls = zip(pageUrls, response_times)
-        sorted_urls = sorted(sorted_urls, key=itemgetter(1))
+        # sorted_urls = zip(pageUrls, response_times)
+        # sorted_urls = sorted(sorted_urls, key=itemgetter(1))
 
-        pageUrls_new =[]
-        for url, _ in sorted_urls:
-            pageUrls_new.append(url)
+        # pageUrls_new =[]
+        # for url, _ in sorted_urls:
+        #     pageUrls_new.append(url)
             
-        return pageUrls_new
+        # return pageUrls_new
+        return pageUrls
         
     #调用浏览器以及相关操作
     def visitPage(self,channelNameList):
@@ -122,7 +123,7 @@ class TestKeyWords():
             allRangeElement=driver.find_elements(By.CLASS_NAME, "m3u8")
             if len(allRangeElement)<=0:
                 continue
-            for i in range(0,1):
+            for i in range(0,5):
                 if allRangeElement[i]:
                     urls.append(allRangeElement[i].text)
             # 根据请求速度返回排好的地址
