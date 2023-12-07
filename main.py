@@ -98,11 +98,14 @@ class TestKeyWords():
     def visitPage(self,channelNameList):
          # # 创建浏览器驱动实例
         global driver
-        chrome_options = Options()
-        chrome_options.add_argument('--headless')
-        chrome_options.add_argument('--no-sandbox')
-        chrome_options.add_argument('--disable-dev-shm-usage')
-        driver = webdriver.Chrome(chrome_options=chrome_options)
+        options = webdriver.ChromeOptions()
+        options.add_argument('headless')
+        options.add_argument('--disable-infobars')
+        options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('--no-sandbox')
+        options.add_argument('--remote-debugging-port=9222')
+        driver = webdriver.Chrome(options=options)
+
         
         # # # 在当前窗口打开页面
         driver.get("https://www.foodieguide.com/iptvsearch/")
