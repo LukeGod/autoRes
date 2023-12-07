@@ -44,7 +44,6 @@ class TestKeyWords():
         # 在基础文件中找channelName的那条数组
         with open(self.source_file, 'r') as file:
             for line in file:
-                print(line)
                 match = re.search(r'#EXTINF:-1.*?,\s*'+channelName, line)
                 if match:
                     strings = match.group(0)
