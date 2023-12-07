@@ -123,9 +123,11 @@ class TestKeyWords():
             allRangeElement=driver.find_elements(By.CLASS_NAME, "m3u8")
             if len(allRangeElement)<=0:
                 continue
-            for i in range(0,5):
-                if allRangeElement[i]:
-                    urls.append(allRangeElement[i].text)
+            if len(allRangeElement)>5:
+                allRangeElement=allRangeElement[:5]
+                
+            for elem in allRangeElement:
+                urls.append(elem.text)
             # 根据请求速度返回排好的地址
             urls=self.compareSpeed(urls)
             print('排好的地址：')
