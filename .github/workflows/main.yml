@@ -22,16 +22,16 @@ jobs:
           update-environment: false
           cache: 'pipenv'
 
+
+      - name: Install Selenium
+        run: |
+            sudo pip3 install selenium
       - name: Set up Chrome
         uses: browser-actions/setup-chrome@latest
         with:
           chrome-version: stable
-
       - name: Download chrome driver
         uses: nanasess/setup-chromedriver@master
-
-
-
       - name: ChromeWebDriver
         run: |
             cat <<EOF >> test.py
