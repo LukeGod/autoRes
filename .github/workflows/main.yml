@@ -48,6 +48,8 @@ jobs:
       - name: Commit and push if changed   # 更新README.md
         run: |
           git diff
+          git config --global user.email "guge.luke@gmail.com"
+          git config --global user.name "lukeGod"
           git add result.m3u
           git commit -m "Github Action Auto Updated"
           git push
