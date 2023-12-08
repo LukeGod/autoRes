@@ -13,6 +13,7 @@ requests = "*"
 feedparser = "*"
 pytz = "*"
 selenium = "*"
+selenium-stealth = "*"
 
 [requires]
 python_version = "*"
