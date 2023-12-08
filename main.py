@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 import os
 import re
 import requests
-from operator import itemgetter
+from selenium_stealth import stealth
 
 class TestKeyWords():
     
@@ -70,14 +70,6 @@ class TestKeyWords():
         print(str(end-start))
         return end - start
     
-    # 移除文件
-    def removeFile(self):
-        if os.path.exists(self.finalFile):
-            os.remove(self.finalFile)
-            print("文件已成功移除")
-        else:
-            print("文件不存在")
-    
     # 比较网速排序 返回排序后的列表
     def compareSpeed(self,pageUrls):
         # response_times = []
@@ -94,26 +86,44 @@ class TestKeyWords():
         # return pageUrls_new
         return pageUrls
         
+    # 移除文件
+    def removeFile(self):
+        if os.path.exists(self.finalFile):
+            os.remove(self.finalFile)
+            print("文件已成功移除")
+        else:
+            print("文件不存在")
+        
     #调用浏览器以及相关操作
     def visitPage(self,channelNameList):
          # # 创建浏览器驱动实例
         global driver
         options = webdriver.ChromeOptions()
-        options.add_argument('headless')
-        options.add_argument('--disable-infobars')
-        options.add_argument('--disable-dev-shm-usage')
-        options.add_argument('--no-sandbox')
-        options.add_argument('--remote-debugging-port=9222')
-        driver = webdriver.Chrome(options=options)
+ 
+        options.add_argument("start-maximized")
+        options.add_argument('--headless')
+        options.add_experimental_option('excludeSwitches', ['enable-automation'])
+        options.add_experimental_option('useAutomationExtension', False)
+        options.add_argument("blink-settings=imagesEnabled=false") # 不加载图片, 提升速度
 
+        driver = webdriver.Chrome(options=options)
+        
+        stealth(driver,
+        languages=["en-US", "en"],
+        vendor="Google Inc.",
+        platform="Win32",
+        webgl_vendor="Intel Inc.",
+        renderer="Intel Iris OpenGL Engine",
+        fix_hairline=True,
+        )
         
         # # # 在当前窗口打开页面
         driver.get("https://www.foodieguide.com/iptvsearch/")
-
+    
         # 移除文件
         self.removeFile()
             
-        # 获取前三个数据源地址 
+        # 获取前5个数据源地址 
         for channelName in channelNameList:
             element=driver.find_element(By.ID, "search")
             element.clear()
@@ -121,10 +131,13 @@ class TestKeyWords():
             driver.find_element(By.ID, "form1").find_element(By.NAME,"Submit").click()
             urls=[]
             allRangeElement=driver.find_elements(By.CLASS_NAME, "m3u8")
+            
+            driver.save_screenshot('screenshot.png')
+        
             if len(allRangeElement)<=0:
                 continue
-            if len(allRangeElement)>5:
-                allRangeElement=allRangeElement[:5]
+            if len(allRangeElement)>4:
+                allRangeElement=allRangeElement[:4]
                 
             for elem in allRangeElement:
                 urls.append(elem.text)
@@ -133,6 +146,7 @@ class TestKeyWords():
             print('排好的地址：')
             print(urls)
             self.outputM3u(channelName,urls)
+            time.sleep(1)
        
         
     def main(self):
